@@ -38,16 +38,27 @@ def find_matching_rows_and_cols_and_blocks(board):
 
 def reset_matching_rows_and_cols_and_blocks(board, matching_rows, matching_cols, matching_blocks):
     # Обнуление совпадающих строк
+    to_del = set()
+    parts = 0
     for row in matching_rows:
         for i in range(len(board)):
-            board[row][i] = 0
+            to_del.add((row, i))
+        parts += 1
 
     # Обнуление совпадающих столбцов
     for col in matching_cols:
         for i in range(len(board)):
-            board[i][col] = 0
+            to_del.add((i, col))
+        parts += 1
 
     for i, j in matching_blocks:
         for x in range(3):
             for y in range(3):
-                board[i * 3 + x][j * 3 + y] = 0
+                to_del.add((i * 3 + x, j * 3 + y))
+        parts += 1
+    for x, y in to_del:
+        board[x][y] = 0
+    # print('parts', parts)
+    return len(to_del), parts
+
+

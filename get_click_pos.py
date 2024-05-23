@@ -1,6 +1,9 @@
 import pygame
 
-def get_square_click(screen, square_size, margin_x, margin_y):
+def get_square_click(screen, Screen):
+    square_size = Screen.sq_size
+    margin_x = Screen.margin_x
+    margin_y = Screen.margin_y
     while True:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
