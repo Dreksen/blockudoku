@@ -10,11 +10,11 @@ def is_board_complete(board, block):
         True, если игра завершена, False в противном случае.
     """
 
-    # Проверка заполнения всех клеток
-    for row in board:
-        for cell in row:
-            if cell == 0:
-                return False
+    # # Проверка заполнения всех клеток
+    # for row in board:
+    #     for cell in row:
+    #         if cell == 0:
+    #             return False
 
     # Создание списка всех возможных блоков
     # blocks = generate_all_blocks()
@@ -91,15 +91,14 @@ def is_valid_position(block, board, row, col):
     """Проверяет, можно ли поставить блок в заданную позицию игрового поля."""
 
     # Проверка выхода за пределы игрового поля
-    if row + len(block) > len(board) or col + len(block) > len(board):
-        return False
+    # if row + len(block) > len(board) or col + len(block) > len(board):
+    #     return False
 
-    # Перебор всех клеток блока
-    for i in range(len(block)):
-        for j in range(len(block)):
-            # Проверка наложения на уже занятые клетки
-            if block[i][j] == 1 and board[row + i][col + j] != 0:
-                return False
 
-    # Если все проверки пройдены, позиция допустима
+    for x, y in block:
+        if row + x >= 9 or col + y >= 9 or row + x < 0 or col + y < 0:
+            return False
+        if board[row + x][col + y] == 1:
+            return False
+
     return True

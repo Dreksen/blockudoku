@@ -1,24 +1,14 @@
-def find_matching_rows_and_cols(board):
-    """Находит совпадающие строки и столбцы в игровом поле Блокудоку.
-
-    Args:
-        board: Двумерный массив с числами, представляющий игровое поле.
-
-    Returns:
-        Два массива: один с совпадающими строками, другой с совпадающими столбцами.
-    """
-
+def find_matching_rows_and_cols_and_blocks(board):
     # Массивы для совпадающих строк и столбцов
     matching_rows = []
     matching_cols = []
-
+    matching_blocks = []
     # Проверка строк
     for i, row in enumerate(board):
-        # Преобразование строки в множество
         row_set = set(row)
 
         # Если множество содержит только один элемент, строка совпадает
-        if len(row_set) == 1:
+        if len(row_set) == 1 and row_set.pop() == 1:
             matching_rows.append(i)
 
     # Проверка столбцов
@@ -30,21 +20,23 @@ def find_matching_rows_and_cols(board):
         column_set = set(column)
 
         # Если множество содержит только один элемент, столбец совпадает
-        if len(column_set) == 1:
+        if len(column_set) == 1 and column_set.pop() == 1:
             matching_cols.append(j)
 
-    # Возврат массивов совпадающих строк и столбцов
-    return matching_rows, matching_cols
+    #blocks cheking
+    for i in range(3):
+        for j in range(3):
+            is_full = True
+            for x in range(3):
+                for y in range(3):
+                    if board[i * 3 + x][j * 3 + y] == 0:
+                        is_full = False
+                        break
+            if is_full:
+                matching_blocks.append([i, j])
+    return matching_rows, matching_cols, matching_blocks
 
-def reset_matching_rows_and_cols(board, matching_rows, matching_cols):
-    """Обнуляет совпадающие строки и столбцы в игровом поле Блокудоку.
-
-    Args:
-        board: Двумерный массив с числами, представляющий игровое поле.
-        matching_rows: Массив с совпадающими строками.
-        matching_cols: Массив с совпадающими столбцами.
-    """
-
+def reset_matching_rows_and_cols_and_blocks(board, matching_rows, matching_cols, matching_blocks):
     # Обнуление совпадающих строк
     for row in matching_rows:
         for i in range(len(board)):
@@ -54,3 +46,8 @@ def reset_matching_rows_and_cols(board, matching_rows, matching_cols):
     for col in matching_cols:
         for i in range(len(board)):
             board[i][col] = 0
+
+    for i, j in matching_blocks:
+        for x in range(3):
+            for y in range(3):
+                board[i * 3 + x][j * 3 + y] = 0
